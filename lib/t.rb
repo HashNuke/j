@@ -25,7 +25,7 @@ class T
   end
 
   def clearList
-    tFile.delete
+    File.delete(@tFilePath)
   end
   
   private
