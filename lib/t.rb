@@ -12,12 +12,13 @@ class T
     writeTaskToFile taskRecord
   end
 
-  def listTasks
+  def listTasks(listType=:todo)
     readTasks
     if @tasks.count > 0
       @tasks.each do |task|
-        record = "(" << task[:key].reverse[0..2].reverse << ") " << task[:status] << " " << task[:title]
-        puts record
+        if ((task[:status] == "DONE" and (listType == :done or listType==:all)) or (task[:status] == "TODO" and (listType == :todo or listType==:all)))
+          puts formatTask(task)
+        end
       end
     else
       puts "No tasks"
@@ -33,6 +34,11 @@ class T
   
   private
 
+  def formatTask(task)
+    "(" << task[:key].reverse[0..2].reverse << ") " << task[:status] << " " << task[:title]
+  end
+  
+  
   def tFile(mode="r+")
     if File.exists?(@tFilePath)
       File.open(@tFilePath, mode)

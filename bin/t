@@ -7,9 +7,11 @@ t = T.new
 if ARGV.count == 0
   t.listTasks
 elsif ARGV.count == 1
+  t.listTasks(:done) if ARGV[0] == "-d"
+  t.listTasks(:all) if ARGV[0] == "-a"
   t.clearList if ARGV[0]=="-c"
-elsif ARGV.count == 2 and ARGV.first == "-d"
-  puts "TODO delete a task" if ARGV[0].equal? "-d"
+elsif ARGV.count == 2 and ARGV.first == "-m"
+  puts "mark a task as done"
 else
   t.addTask ARGV.join " "
 end
