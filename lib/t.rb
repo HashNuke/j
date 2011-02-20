@@ -2,16 +2,11 @@ require 'etc'
 
 class T
   def initialize
-    userHome = Etc.getpwduid.dir
+    userHome = Etc.getpwuid.dir
     @tFilePath = userHome << '/' << ".t.list"
-    if File.exist?(tFilePath)
-      File.new(tFilePath, "w")
-    end
+    
   end
 
-  
-  
-  
   def createTask(task)
     taskRecord = makeTask task
     writeTaskToFiletaskRecord
@@ -19,17 +14,29 @@ class T
 
   def listTasks
     readTasks
-    @tasks.each do |task|
-      record = task[:hash] << " " << task[:status] << task[:title]
-      puts record
+    if @tasks.count > 0
+      @tasks.each do |task|
+        record = task[:hash] << " " << task[:status] << task[:title]
+        puts record
+      end
+    else
+      puts "No tasks"
     end
   end
 
-  def tFile(mode="w+")
-    File.open(@tFilePath, mode)
+  def clear_list
+    tFile.exists?
   end
-
+  
   private
+
+  def tFile(mode="w+")
+    if File.exist?(@tFilePath)
+      File.new(tFilePath, "w")
+    else
+      File.open(@tFilePath, mode)
+    end
+  end
   
   def makeTask(task)
     key = rand(32**4).to_s
