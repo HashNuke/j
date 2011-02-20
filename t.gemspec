@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Akash Manohar"]
   s.email       = ["akash@akash.im"]
   s.homepage    = "http://akash.im"
-  s.summary     = "t task manager - v" + s.version
+  s.summary     = "t task manager - v" + s.version.to_s
   s.description = %q{T is a simple command-line task manager. Inspired by t and t- task managers which are written in python}
   
   s.add_dependency "rainbow", "~> 1.1.1"
