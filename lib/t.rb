@@ -35,9 +35,13 @@ class T
   private
 
   def formatTask(task)
-    "(" << task[:key].reverse[0..2].reverse << ") " << task[:status] << " " << task[:title]
+    shortKey = "(" << task[:key].reverse[0..2].reverse << ") "
+    if task[:status] =="TODO"
+      shortKey << task[:status].foreground(:red).bright << " " << task[:title]
+    else
+      shortKey << task[:status].foreground(:green).bright << " " << task[:title]
+    end
   end
-  
   
   def tFile(mode="r+")
     if File.exists?(@tFilePath)
