@@ -7,16 +7,16 @@ class T
     
   end
 
-  def createTask(task)
-    taskRecord = makeTask task
-    writeTaskToFiletaskRecord
+  def addTask(task)
+    taskRecord = createTask task
+    writeTaskToFile taskRecord
   end
 
   def listTasks
     readTasks
     if @tasks.count > 0
       @tasks.each do |task|
-        record = task[:hash] << " " << task[:status] << task[:title]
+        record = "(" << task[:key].reverse[0..2].reverse << ") " << task[:status] << " " << task[:title]
         puts record
       end
     else
@@ -28,6 +28,7 @@ class T
     if File.exists?(@tFilePath)
       File.delete(@tFilePath)
     end
+    puts "Cleared list"
   end
   
   private
@@ -40,7 +41,7 @@ class T
     end
   end
   
-  def makeTask(task)
+  def createTask(task)
     key = rand(32**4).to_s
     taskRecord = key << " " << "TODO" << " " << task
     return taskRecord
@@ -52,9 +53,9 @@ class T
   end
 
   def readTasks
-    @tasks = tFile "r+"
+    @tasks = []
     # REcord Pattern: <Hash> <Space> <Status:TODO/DONE> <space> <task>
-    taskRecordPattern = /(?<key>\w+)\s(?<status>\w+)\s(?<title>\w+)/
+    taskRecordPattern = /(?<key>\w+)\s(?<status>\w+)\s(?<title>[\w\s]+)/
     tFile.readlines.each do |l|
       next if l.length<2
       match = taskRecordPattern.match l
