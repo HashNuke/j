@@ -6,13 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "t"
   s.version     = T::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
-
-  s.rubyforge_project = "t"
+  s.authors     = ["Akash Manohar"]
+  s.email       = ["akash@akash.im"]
+  s.homepage    = "http://akash.im"
+  s.summary     = %q{a simple command-line task manager}
+  s.description = %q{a simple command-line task manager. Inspired by t and t- task managers which are written in python}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

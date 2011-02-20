@@ -1,0 +1,8 @@
+#! /usr/bin/env ruby
+require 'optparse'
+
+options = OptionParser.new do |option|
+  
+end
+
+options.parse!
