@@ -8,15 +8,15 @@ Usage:
 -------
 
 * List todo tasks
-  t
+       t
 * List all tasks
-  t -a
+       t -a
 * List done tasks
-  t -d
+       t -d
 * Mark a task as done
-  t -m <key>
+       t -m <key>
 * Remove a task
-  t -r <key>
+       t -r <key>
 * Clear task list
-  t -c
+       t -c
 
