@@ -15,9 +15,9 @@ class T
   def listTasks(listType=:todo)
     readTasks
     if @tasks.count > 0
-      @tasks.each do |task|
+      @tasks.each_with_index do |task, i|
         if ((task[:status] == "DONE" and (listType == :done or listType==:all)) or (task[:status] == "TODO" and (listType == :todo or listType==:all)))
-          puts formatTask(task)
+          puts formatTask(task, i)
         end
       end
     else
@@ -26,41 +26,31 @@ class T
   end
 
   def markTask(key)
-    if key.length < 3
-      puts "key must be atleast 3 characters"      
-    else
-      readTasks
-      regex = /#{Regexp.quote(key)}\z/
-      @tasks.each_with_index do |task, i|
-        unless regex.match(task[:key]).nil?
-          @tasks[i].store(:status, "DONE")
-          puts "DONE".color(:green).bright << " " << task[:title]
-        end
-      end
+    readTasks
+    key = key.to_i
+    if (key <= @tasks.length)
+      @tasks[key].store(:status, "DONE")
+      puts "DONE".color(:green).bright << " " << @tasks[key][:title]
       dumpTasksToFile
+    else
+      puts "No such task found!"
     end
   end
 
   def deleteTask(key)
-    if key.length < 3
-      puts "key must be atleast 3 characters"      
-    else
-      deleteElement = -1
-      readTasks
-      regex = /#{Regexp.quote(key)}\z/
-      @tasks.each_with_index do |task, i|
-        unless regex.match(task[:key]).nil?
-          deleteElement = i
-          break
-        end
-      end
-      
-      if (deleteElement > -1)
-        task = @tasks[deleteElement]
-        @tasks.delete_at(deleteElement)
+    readTasks
+    key = key.to_i
+    if key <= @tasks.count
+      task = @tasks[key]
+      @tasks.delete_at(key)
+      if task[:status] == "TODO"
         puts "Deleted " << task[:status].color(:red).bright << " " << task[:title]
-        dumpTasksToFile
+      else
+        puts "Deleted " << task[:status].color(:green).bright << " " << task[:title]
       end
+      dumpTasksToFile
+    else
+      puts "No such task found!"
     end
   end
   
@@ -76,18 +66,19 @@ class T
   def dumpTasksToFile
     f = tFile("w+")
     @tasks.each do |task|
-      taskRecord = task[:key] << " " << task[:status] << " " << task[:title]
+      taskRecord = task[:status] << " " << task[:title]
       f << taskRecord
     end
     f.close
   end
   
-  def formatTask(task)
-    shortKey = "(" << task[:key].reverse[0..2].reverse << ") "
+  def formatTask(task,key)
+    key = ("[" << key.to_s.foreground(:black).background(:white).bright << "]".background(:white))
+    key = key.background(:white)
     if task[:status] =="TODO"
-      shortKey << task[:status].foreground(:red).bright << " " << task[:title]
+      key << " " << task[:status].foreground(:red).bright << " " << task[:title]
     else
-      shortKey << task[:status].foreground(:green).bright << " " << task[:title]
+      key << " " << task[:status].foreground(:green).bright << " " << task[:title]
     end
   end
   
@@ -100,9 +91,7 @@ class T
   end
   
   def createTask(task)
-    key = rand(32**4).to_s
-    taskRecord = key << " " << "TODO" << " " << task
-    return taskRecord
+    "TODO" << " " << task
   end
 
   def writeTaskToFile(taskRecord)
@@ -112,15 +101,14 @@ class T
 
   def readTasks
     @tasks = []
-    # REcord Pattern: <Hash> <Space> <Status:TODO/DONE> <space> <task>
-    taskRecordPattern = /(?<key>\w+)\s(?<status>\w+)\s(?<title>[\w\s]+)/
+    # REcord Pattern: <status:TODO/DONE> <space> <task>
+    taskRecordPattern = /(?<status>\w+)\s(?<title>[\w\s]+)/
     tFile.readlines.each do |l|
       if (l.length < 2)
         next
       end
       match = taskRecordPattern.match l
       task = {
-        :key=> match[:key],
         :status=> match[:status],
         :title=> match[:title]
       }
