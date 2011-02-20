@@ -2,15 +2,16 @@
 require 'optparse'
 require '../lib/t'
 
-puts ARGV.count
-puts ARGV[0]
+ARGV.each do |a|
+  puts a
+end
 
 t = T.new
 
-if ARGV.count.equal? 0
+if ARGV.count == 0
   t.listTasks
-elsif ARGV.count.equal? 1
-  t.clearList if ARGV[0].equal? "-c"
-elsif ARGV.count.equal? 2
+elsif ARGV.count == 1
+  t.clearList if ARGV[0]=="-c"
+elsif ARGV.count == 2
   puts "TODO delete a task" if ARGV[0].equal? "-d"
 end
