@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 require 'optparse'
-require '../lib/t'
+require File.expand_path('../lib/t', File.dirname(__FILE__))
 require 'rainbow'
 
 t = T.new
