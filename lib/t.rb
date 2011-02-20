@@ -25,6 +25,45 @@ class T
     end
   end
 
+  def markTask(key)
+    if key.length < 3
+      puts "key must be atleast 3 characters"      
+    else
+      readTasks
+      regex = /#{Regexp.quote(key)}\z/
+      @tasks.each_with_index do |task, i|
+        unless regex.match(task[:key]).nil?
+          @tasks[i].store(:status, "DONE")
+          puts "DONE".color(:red).bright << " " << task[:title]
+        end
+      end
+      dumpTasksToFile
+    end
+  end
+
+  def deleteTask(key)
+    if key.length < 3
+      puts "key must be atleast 3 characters"      
+    else
+      deleteElement = -1
+      readTasks
+      regex = /#{Regexp.quote(key)}\z/
+      @tasks.each_with_index do |task, i|
+        unless regex.match(task[:key]).nil?
+          deleteElement = i
+          break
+        end
+      end
+      
+      if (deleteElement > -1)
+        task = @tasks[deleteElement]
+        @tasks.delete_at(deleteElement)
+        puts "Deleted " << task[:status].color(:red).bright << " " << task[:title]
+        dumpTasksToFile
+      end
+    end
+  end
+  
   def clearList
     if File.exists?(@tFilePath)
       File.delete(@tFilePath)
@@ -34,6 +73,15 @@ class T
   
   private
 
+  def dumpTasksToFile
+    f = tFile("w+")
+    @tasks.each do |task|
+      taskRecord = task[:key] << " " << task[:status] << " " << task[:title]
+      f << taskRecord
+    end
+    f.close
+  end
+  
   def formatTask(task)
     shortKey = "(" << task[:key].reverse[0..2].reverse << ") "
     if task[:status] =="TODO"
@@ -67,7 +115,9 @@ class T
     # REcord Pattern: <Hash> <Space> <Status:TODO/DONE> <space> <task>
     taskRecordPattern = /(?<key>\w+)\s(?<status>\w+)\s(?<title>[\w\s]+)/
     tFile.readlines.each do |l|
-      next if l.length<2
+      if (l.length < 2)
+        next
+      end
       match = taskRecordPattern.match l
       task = {
         :key=> match[:key],
@@ -77,5 +127,4 @@ class T
       @tasks.push task
     end
   end
-
 end

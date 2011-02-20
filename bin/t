@@ -12,7 +12,9 @@ elsif ARGV.count == 1
   t.listTasks(:all) if ARGV[0] == "-a"
   t.clearList if ARGV[0]=="-c"
 elsif ARGV.count == 2 and ARGV.first == "-m"
-  puts "mark a task as done"
+  t.markTask ARGV[1]
+elsif ARGV.count == 2 and ARGV.first == "-r"
+  t.deleteTask ARGV[1]
 else
-  t.addTask ARGV.join " "
+  t.addTask ARGV.join(" ")
 end
