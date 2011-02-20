@@ -34,7 +34,7 @@ class T
       @tasks.each_with_index do |task, i|
         unless regex.match(task[:key]).nil?
           @tasks[i].store(:status, "DONE")
-          puts "DONE".color(:red).bright << " " << task[:title]
+          puts "DONE".color(:green).bright << " " << task[:title]
         end
       end
       dumpTasksToFile
