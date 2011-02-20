@@ -9,9 +9,7 @@ class T
     end
   end
 
-  def tFile(mode="w+")
-    File.open(@tFilePath, mode)
-  end
+  
   
   
   def createTask(task)
@@ -19,6 +17,20 @@ class T
     writeTaskToFiletaskRecord
   end
 
+  def listTasks
+    readTasks
+    @tasks.each do |task|
+      record = task[:hash] << " " << task[:status] << task[:title]
+      puts record
+    end
+  end
+
+  def tFile(mode="w+")
+    File.open(@tFilePath, mode)
+  end
+
+  private
+  
   def makeTask(task)
     key = rand(32**4).to_s
     taskRecord = key << " " << "TODO" << " " << task
@@ -43,14 +55,6 @@ class T
         :title=> match[:title]
       }
       @tasks.push task
-    end
-  end
-
-  def listTasks
-    readTasks
-    @tasks.each do |task|
-      record = task[:hash] << " " << task[:status] << task[:title]
-      puts record
     end
   end
 
