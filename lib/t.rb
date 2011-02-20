@@ -33,9 +33,9 @@ class T
   def tFile(mode="w+")
     
     if File.exists?(@tFilePath)
-      File.open(@tFilePath, "w")
-    else
       File.open(@tFilePath, mode)
+    else
+      File.new(@tFilePath, "w+")
     end
   end
   
