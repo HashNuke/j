@@ -24,15 +24,16 @@ class T
     end
   end
 
-  def clear_list
-    tFile.exists?
+  def clearList
+    tFile.delete
   end
   
   private
 
   def tFile(mode="w+")
-    if File.exist?(@tFilePath)
-      File.new(tFilePath, "w")
+    
+    if File.exists?(@tFilePath)
+      File.open(@tFilePath, "w")
     else
       File.open(@tFilePath, mode)
     end

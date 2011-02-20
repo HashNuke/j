@@ -8,9 +8,9 @@ puts ARGV[0]
 t = T.new
 
 if ARGV.count.equal? 0
-  puts "list tasks"
+  t.listTasks
 elsif ARGV.count.equal? 1
-  t.clear_list if ARGV[0].equal? "-c"
+  t.clearList if ARGV[0].equal? "-c"
 elsif ARGV.count.equal? 2
   puts "TODO delete a task" if ARGV[0].equal? "-d"
 end
