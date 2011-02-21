@@ -26,31 +26,39 @@ class J
   end
 
   def markTask(key)
-    readTasks
-    key = key.to_i
-    if (key <= @tasks.length)
-      @tasks[key].store(:status, "DONE")
-      puts "DONE".color(:green).bright << " " << @tasks[key][:title]
-      dumpTasksToFile
+    if not key.match(/\A[0-9]+\Z/).nil?
+      readTasks
+      key = key.to_i
+      if (key <= @tasks.length)
+        @tasks[key].store(:status, "DONE")
+        puts "DONE".color(:green).bright << " " << @tasks[key][:title]
+        dumpTasksToFile
+      else
+        puts "No such task found!"
+      end
     else
-      puts "No such task found!"
+      puts "Enter a valid task key!"
     end
   end
 
   def deleteTask(key)
-    readTasks
-    key = key.to_i
-    if key <= @tasks.count
-      task = @tasks[key]
-      @tasks.delete_at(key)
-      if task[:status] == "TODO"
-        puts "Deleted " << task[:status].color(:red).bright << " " << task[:title]
+    if not key.match(/\A[0-9]+\Z/).nil?
+      readTasks
+      key = key.to_i
+      if key <= @tasks.count
+        task = @tasks[key]
+        @tasks.delete_at(key)
+        if task[:status] == "TODO"
+          puts "Deleted " << task[:status].color(:red).bright << " " << task[:title]
+        else
+          puts "Deleted " << task[:status].color(:green).bright << " " << task[:title]
+        end
+        dumpTasksToFile
       else
-        puts "Deleted " << task[:status].color(:green).bright << " " << task[:title]
+        puts "No such task found!"
       end
-      dumpTasksToFile
     else
-      puts "No such task found!"
+      puts "Enter a valid task key!"
     end
   end
   
