@@ -15,18 +15,20 @@ Usage:
        j
 * List all tasks
        j -a
-* List done tasks
-       j -d
+* List finished tasks
+       j -f
 * Mark a task as done
        j -m <key>
-  F.ex: *j -m 3*
-* Remove a task
-       j -r <key>
-* Clear task list
+  F.ex: `j -m 3`
+* Delete a task
+       j -d <key>
+* Clear task list by deleting the *.todo* file (will be recreated later when needed)
        j -c
+* Display the scroll to use the magic
+       j -h
 
-Key is a number that you will find next to a task, when you list tasks. It isn't the same everytime. So watch out.
+Key is a number that you will find next to a task, when you list tasks. It isn't the same everytime. So watch out!
 
-All tasks are stored in the *.todo* file in your $HOME directory.
+All tasks are stored in the *.todo* file in your *$HOME* directory. However, if your current directory contains a *.todo* file, then that file will be used.
 
-This gem is a work-in-progress and will be updated regularly in the next few days until it gains the shape of the idea in the author's head.
+
