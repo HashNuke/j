@@ -83,7 +83,7 @@ class J
   def dumpTasksToFile
     f = tFile("w+")
     @tasks.each do |task|
-      taskRecord = task[:status] << " " << task[:title]
+      taskRecord = task[:status] << " " << task[:title] << "\n"
       f << taskRecord
     end
     f.close

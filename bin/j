@@ -54,10 +54,12 @@ if ARGV.length > 0  and validOptions.include?(ARGV.first)
     
     o.on('-c', "--clear", "Clears the todo list") do |b|
       j.clearList
+      exit
     end
 
     o.on('-h', "--help", "Displays this message") do |b|
       puts o
+      exit
     end
 
   end
