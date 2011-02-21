@@ -5,14 +5,14 @@ class J
     userHome = Etc.getpwuid.dir
     if File.exists?(Dir.pwd << "/.todo")
       @tFilePath = Dir.pwd << "/.todo"
+      if (Dir.pwd == userHome)
+        @globalTodo = true
+      else
+        @globalTodo = false
+      end
     else
-      @tFilePath = userHome << '/' << ".todo"
-    end
-
-    if (Dir.pwd == userHome)
       @globalTodo = true
-    else
-      @globalTodo = false
+      @tFilePath = userHome << '/' << ".todo"
     end
   end
 
