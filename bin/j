@@ -17,7 +17,7 @@ validOptions = ["-a", "--all",
 if ARGV.length > 0  and validOptions.include?(ARGV.first)
 
   options = OptionParser.new do |o|
-    o.banner = "j task manager, v0.5"
+    o.banner = "j task manager"
     
     o.on('-a', "--all", "List all tasks") do |b|
       j.listTasks(:all)
