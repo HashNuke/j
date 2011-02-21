@@ -26,48 +26,40 @@ class J
         end
       end
     else
-      if globalTodo
+      if @globalTodo
         puts "No tasks!"
       else
-        puts "No tasks! in project todo list. To delete project todo list use option -c."
+        puts "No tasks in project todo list. To delete project todo list use option -c."
       end
     end
   end
 
   def markTask(key)
-    if not key.match(/\A[0-9]+\Z/).nil?
-      readTasks
-      key = key.to_i
-      if (key <= @tasks.length)
-        @tasks[key].store(:status, "DONE")
-        puts "DONE".color(:green).bright << " " << @tasks[key][:title]
-        dumpTasksToFile
-      else
-        puts "No such task found!"
-      end
+    readTasks
+    key = key.to_i
+    if (key <= @tasks.length)
+      @tasks[key].store(:status, "DONE")
+      puts "DONE".color(:green).bright << " " << @tasks[key][:title]
+      dumpTasksToFile
     else
-      puts "Enter a valid task key!"
+      puts "No such task found!"
     end
   end
 
   def deleteTask(key)
-    if not key.match(/\A[0-9]+\Z/).nil?
-      readTasks
-      key = key.to_i
-      if key <= @tasks.count
-        task = @tasks[key]
-        @tasks.delete_at(key)
-        if task[:status] == "TODO"
-          puts "Deleted " << task[:status].color(:red).bright << " " << task[:title]
-        else
-          puts "Deleted " << task[:status].color(:green).bright << " " << task[:title]
-        end
-        dumpTasksToFile
+    readTasks
+    key = key.to_i
+    if key <= @tasks.count
+      task = @tasks[key]
+      @tasks.delete_at(key)
+      if task[:status] == "TODO"
+        puts "Deleted " << task[:status].color(:red).bright << " " << task[:title]
       else
-        puts "No such task found!"
+        puts "Deleted " << task[:status].color(:green).bright << " " << task[:title]
       end
+      dumpTasksToFile
     else
-      puts "Enter a valid task key!"
+      puts "No such task found!"
     end
   end
   
@@ -75,12 +67,16 @@ class J
     if File.exists?(@tFilePath)
       File.delete(@tFilePath)
     end
-    if globalTodo
+    if @globalTodo
       puts "Cleared todo list"
     else
       puts "Cleared project todo list"
     end
   end
+
+  def validKey(key)
+    return true unless key.match(/\A[0-9]+\Z/).nil?
+  end 
   
   private
 
@@ -121,9 +117,12 @@ class J
   end
 
   def readTasks
+    
     @tasks = []
-    # REcord Pattern: <status:TODO/DONE> <space> <task>
-    taskRecordPattern = /(?<status>\w+)\s(?<title>[\w\s]+)/
+
+    # Record Pattern: <status:TODO/DONE> <space> <task>
+    taskRecordPattern = /(?<status>\S+)\s(?<title>[\S]+)/
+
     tFile.readlines.each do |l|
       if (l.length < 2)
         next
