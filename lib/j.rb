@@ -3,8 +3,11 @@ require 'etc'
 class J
   def initialize
     userHome = Etc.getpwuid.dir
-    @tFilePath = userHome << '/' << ".todo"
-    
+    if File.exists?(Dir.pwd << "/.todo")
+      @tFilePath = Dir.pwd << "/.todo"
+    else
+      @tFilePath = userHome << '/' << ".todo"
+    end
   end
 
   def addTask(task)
@@ -21,7 +24,7 @@ class J
         end
       end
     else
-      puts "No tasks"
+      puts "No tasks!"
     end
   end
 
