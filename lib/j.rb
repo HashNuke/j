@@ -1,9 +1,9 @@
 require 'etc'
 
-class T
+class J
   def initialize
     userHome = Etc.getpwuid.dir
-    @tFilePath = userHome << '/' << ".t.list"
+    @tFilePath = userHome << '/' << ".todo"
     
   end
 

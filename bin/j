@@ -1,0 +1,20 @@
+#! /usr/bin/env ruby
+require 'rainbow'
+require File.expand_path('../lib/j', File.dirname(__FILE__))
+
+
+j = J.new
+
+if ARGV.count == 0
+  j.listTasks
+elsif ARGV.count == 1
+  j.listTasks(:done) if ARGV[0] == "-d"
+  j.listTasks(:all) if ARGV[0] == "-a"
+  j.clearList if ARGV[0]=="-c"
+elsif ARGV.count == 2 and ARGV.first == "-m"
+  j.markTask ARGV[1]
+elsif ARGV.count == 2 and ARGV.first == "-r"
+  j.deleteTask ARGV[1]
+else
+  j.addTask ARGV.join(" ")
+end
