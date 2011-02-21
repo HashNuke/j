@@ -5,7 +5,9 @@ class J
     userHome = Etc.getpwuid.dir
     if File.exists?(Dir.pwd << "/.todo")
       @tFilePath = Dir.pwd << "/.todo"
+      @globalTodo = false
     else
+      @globalTodo = true
       @tFilePath = userHome << '/' << ".todo"
     end
   end
@@ -24,7 +26,11 @@ class J
         end
       end
     else
-      puts "No tasks!"
+      if globalTodo
+        puts "No tasks!"
+      else
+        puts "No tasks! in project todo list. To delete project todo list use option -c."
+      end
     end
   end
 
@@ -69,7 +75,11 @@ class J
     if File.exists?(@tFilePath)
       File.delete(@tFilePath)
     end
-    puts "Cleared list"
+    if globalTodo
+      puts "Cleared todo list"
+    else
+      puts "Cleared project todo list"
+    end
   end
   
   private
