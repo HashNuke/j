@@ -5,7 +5,11 @@ class J
     userHome = Etc.getpwuid.dir
     if File.exists?(Dir.pwd << "/.todo")
       @tFilePath = Dir.pwd << "/.todo"
-      @globalTodo = false
+      if (Dir.pwd == userHome)
+        @globalTodo = true
+      else
+        @globalTodo = false
+      end
     else
       @globalTodo = true
       @tFilePath = userHome << '/' << ".todo"
@@ -30,7 +34,7 @@ class J
       if @globalTodo
         puts "No tasks!"
       else
-        puts "No tasks in project todo list. To delete project todo list use option -c."
+        puts "No tasks in project todo list. To delete project todo list use option -c"
       end
     end
   end
