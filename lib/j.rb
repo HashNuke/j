@@ -126,7 +126,7 @@ class J
     @tasks = []
 
     # Record Pattern: <status:TODO/DONE> <space> <task>
-    taskRecordPattern = /(?<status>\S+)\s(?<title>[\S]+)/
+    taskRecordPattern = /(?<status>(TODO|DONE))\s(?<title>.+)\Z/
 
     tFile.readlines.each do |l|
       if (l.length < 2)
