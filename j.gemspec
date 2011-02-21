@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name        = "j"
-  s.version     = "0.4.1"
+  s.version     = "0.4.2"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Akash Manohar"]
   s.email       = ["akash@akash.im"]
   s.homepage    = "http://akash.im"
-  s.summary     = "J task manager - v" + s.version.to_s
-  s.description = %q{J is a simple command-line task manager. Inspired by t- task manager which is written in python}
+  s.summary     = "j task manager - v" + s.version.to_s
+  s.description = %q{j, stands for jot and is a simple command-line task manager. Inspired by t- task manager which is written in python}
   
   s.add_dependency "rainbow", "~> 1.1.1"
 
