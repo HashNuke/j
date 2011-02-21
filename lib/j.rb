@@ -14,6 +14,7 @@ class J
 
   def addTask(task)
     taskRecord = createTask task
+    puts "*NEW* " << "TODO".foreground(:red).bright << " " << task
     writeTaskToFile taskRecord
   end
 

@@ -1,4 +1,4 @@
-j - task manager (v0.4.2)
+j - task manager (v0.5)
 =================
 
 j, stands for jot and is a simple command-line task manager written in Ruby. Inspired by [t-](http://www.penzba.co.uk/t-/t-.html) which was written in Python.
