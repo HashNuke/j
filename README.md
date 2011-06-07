@@ -1,31 +1,37 @@
 j - task manager (v0.5.1)
-=================
+==========================
 
 j, stands for jot and is a simple command-line task manager written in Ruby. Inspired by [t-](http://www.penzba.co.uk/t-/t-.html) which was written in Python.
 
-Install:
+
+Install
 --------
 
        gem install j
 
-Usage:
+Note
+-----
+
+As of v0.6, the executable is not "jot" and not just "j". This is to avoid collisions with other software or scripts. So now feel free to alias the jot command to anything else you want :)
+
+Usage
 -------
 
 * List todo tasks
-       j
+       jot
 * List all tasks
-       j -a
+       jot -a
 * List finished tasks
-       j -f
+       jot -f
 * Mark a task as done
-       j -m <key>
+       jot -m <key>
   F.ex: `j -m 3`
 * Delete a task
-       j -d <key>
+       jot -d <key>
 * Clear task list by deleting the *.todo* file (will be recreated later when needed)
-       j -c
+       jot -c
 * Display the scroll to use the magic
-       j -h
+       jot -h
 
 Key is a number that you will find next to a task, when you list tasks. It isn't the same everytime. So watch out!
 
