@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.email       = ["akash@akash.im"]
   s.homepage    = "http://akash.im/j"
   s.summary     = "j task manager - v" + s.version.to_s
-  s.description = %q{j, stands for jot and is a simple command-line task manager. Inspired by t- task manager which is written in python}
+  s.description = %q{j, stands for jot and is a simple command-line task manager. Inspired by t- task manager which is written in python. The binary for is called j or it's alias jot}
   
   s.add_dependency "rainbow", "~> 1.1.1"
 
