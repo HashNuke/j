@@ -1,1 +1,2 @@
-require File.expand_path('jot', File.dirname(__FILE__))
+#! /usr/bin/env ruby
+require File.expand_path('jot.rb', File.dirname(__FILE__))
