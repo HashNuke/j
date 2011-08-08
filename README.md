@@ -12,29 +12,27 @@ Install
 Note
 -----
 
-As of v0.6, the executable is not "jot" and not just "j". This is to avoid collisions with other software or scripts. So now feel free to alias the jot command to anything else you want :)
+As of version 0.6.11, the executable is available as both "j" and "jot". So feel free to use whichever you feel is world changing ;)
 
 Usage
 -------
 
 * List todo tasks
-       jot
+       j
 * List all tasks
-       jot -a
+       j -a
 * List finished tasks
-       jot -f
+       j -f
 * Mark a task as done
-       jot -m <key>
+       j -m <key>
   F.ex: `j -m 3`
 * Delete a task
-       jot -d <key>
+       j -d <key>
 * Clear task list by deleting the *.todo* file (will be recreated later when needed)
-       jot -c
+       j -c
 * Display the scroll to use the magic
-       jot -h
+       j -h
 
 Key is a number that you will find next to a task, when you list tasks. It isn't the same everytime. So watch out!
 
-All tasks are stored in the *.todo* file in your *$HOME* directory. However, if your current directory contains a *.todo* file, then that file will be used.
-
-
+**All tasks are stored in the *.todo* file in your *$HOME* directory. However, if your current directory contains a *.todo* file, then that file will be used.**
