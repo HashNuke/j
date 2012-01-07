@@ -18,19 +18,33 @@ Usage
 -------
 
 * List todo tasks
+
        j
+
 * List all tasks
+
        j -a
+
 * List finished tasks
+
        j -f
+
 * Mark a task as done
+
        j -m <key>
-  F.ex: `j -m 3`
+
+F.ex: `j -m 3`
+
 * Delete a task
+
        j -d <key>
+
 * Clear task list by deleting the *.todo* file (will be recreated later when needed)
+
        j -c
+
 * Display the scroll to use the magic
+
        j -h
 
 Key is a number that you will find next to a task, when you list tasks. It isn't the same everytime. So watch out!
