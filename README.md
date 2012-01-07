@@ -24,8 +24,7 @@ Usage
 * List finished tasks: `j -f`
 
 * Mark a task as done: `j -m <key>`
-
-F.ex: `j -m 3`
+  For example: `j -m 3`
 
 * Delete a task: `j -d <key>`
 
