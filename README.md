@@ -17,35 +17,21 @@ As of version 0.6.11, the executable is available as both "j" and "jot". So feel
 Usage
 -------
 
-* List todo tasks
+* List todo tasks: `j`
 
-       j
+* List all tasks: `j -a`
 
-* List all tasks
+* List finished tasks: `j -f`
 
-       j -a
-
-* List finished tasks
-
-       j -f
-
-* Mark a task as done
-
-       j -m <key>
+* Mark a task as done: `j -m <key>`
 
 F.ex: `j -m 3`
 
-* Delete a task
+* Delete a task: `j -d <key>`
 
-       j -d <key>
+* Clear task list by deleting the *.todo* file (will be recreated later when needed): `j -c`
 
-* Clear task list by deleting the *.todo* file (will be recreated later when needed)
-
-       j -c
-
-* Display the scroll to use the magic
-
-       j -h
+* Display the scroll to use the magic: `j -h`
 
 Key is a number that you will find next to a task, when you list tasks. It isn't the same everytime. So watch out!
 
