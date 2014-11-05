@@ -2,49 +2,39 @@ require 'etc'
 
 class J
   def initialize
-    userHome = Etc.getpwuid.dir
-    if File.exists?(Dir.pwd << "/.todo")
-      @tFilePath = Dir.pwd << "/.todo"
-      if (Dir.pwd == userHome)
-        @globalTodo = true
-      else
-        @globalTodo = false
-      end
+    @tFilePath = "#{Dir.pwd}/.todo"
+    if File.exists? @tFilePath
+      @globalTodo = (Dir.pwd == ENV['HOME'] ? true : false)
     else
       @globalTodo = true
-      @tFilePath = userHome << '/' << ".todo"
+      @tFilePath = "#{ENV['HOME']}/.todo"
     end
   end
 
   def addTask(task)
     taskRecord = createTask task
-    puts "*NEW* " << "TODO".foreground(:red).bright << " " << task
+    puts "*NEW* " + "TODO".foreground(:red).bright + " " + task
     writeTaskToFile taskRecord
   end
 
   def listTasks(listType=:todo)
     readTasks
-    if @tasks.count > 0
+    if not @tasks.empty?
       @tasks.each_with_index do |task, i|
-        if ((task[:status] == "DONE" and (listType == :done or listType==:all)) or (task[:status] == "TODO" and (listType == :todo or listType==:all)))
-          puts formatTask(task, i)
-        end
+        puts formatTask(task, i) if ((task[:status] == "DONE" and (listType == :done or listType==:all)) or \
+                                     (task[:status] == "TODO" and (listType == :todo or listType==:all)))
       end
     else
-      if @globalTodo
-        puts "No tasks!"
-      else
-        puts "No tasks in project todo list. To delete project todo list use option -c"
-      end
+      puts(@globalTodo ? "No tasks!" : "No tasks in project todo list. To delete project todo list use option -c")
     end
   end
 
   def markTask(key)
     readTasks
     key = key.to_i
-    if (key <= @tasks.length)
+    if @tasks and @tasks[key]
       @tasks[key].store(:status, "DONE")
-      puts "DONE".color(:green).bright << " " << @tasks[key][:title]
+      puts "DONE".color(:green).bright + " " + @tasks[key][:title]
       dumpTasksToFile
     else
       puts "No such task found!"
@@ -54,14 +44,10 @@ class J
   def deleteTask(key)
     readTasks
     key = key.to_i
-    if key <= @tasks.count
+    if @tasks and @tasks[key]
       task = @tasks[key]
       @tasks.delete_at(key)
-      if task[:status] == "TODO"
-        puts "Deleted " << task[:status].color(:red).bright << " " << task[:title]
-      else
-        puts "Deleted " << task[:status].color(:green).bright << " " << task[:title]
-      end
+      puts "Deleted " + task[:status].color((task[:status] == "TODO" ? :red : :green)).bright + " " + task[:title]
       dumpTasksToFile
     else
       puts "No such task found!"
@@ -69,14 +55,8 @@ class J
   end
   
   def clearList
-    if File.exists?(@tFilePath)
-      File.delete(@tFilePath)
-    end
-    if @globalTodo
-      puts "Cleared todo list"
-    else
-      puts "Cleared project todo list"
-    end
+    File.delete(@tFilePath) if File.exists?(@tFilePath)
+    puts(@globalTodo ? "Cleared todo list" : "Cleared project todo list")
   end
 
   def validKey(key)
@@ -88,20 +68,15 @@ class J
   def dumpTasksToFile
     f = tFile("w+")
     @tasks.each do |task|
-      taskRecord = task[:status] << " " << task[:title] << "\n"
+      taskRecord = task[:status] + " " + task[:title] + "\n"
       f << taskRecord
     end
     f.close
   end
   
   def formatTask(task,key)
-    key = ("[" << key.to_s.foreground(:black).background(:white).bright << "]".background(:white))
-    key = key.background(:white)
-    if task[:status] =="TODO"
-      key << " " << task[:status].foreground(:red).bright << " " << task[:title]
-    else
-      key << " " << task[:status].foreground(:green).bright << " " << task[:title]
-    end
+    return ("[" + key.to_s.foreground(:black).background(:white).bright + "]".background(:white)).background(:white) + \
+      " " + task[:status].foreground((task[:status] =="TODO" ? :red : :green)).bright + " " + task[:title]
   end
   
   def tFile(mode="r+")
@@ -113,7 +88,7 @@ class J
   end
   
   def createTask(task)
-    "TODO" << " " << task
+    return "TODO #{task}"
   end
 
   def writeTaskToFile(taskRecord)
@@ -122,22 +97,19 @@ class J
   end
 
   def readTasks
-    
     @tasks = []
 
     # Record Pattern: <status:TODO/DONE> <space> <task>
     taskRecordPattern = /(?<status>(TODO|DONE))\s(?<title>.+)\Z/
 
     tFile.readlines.each do |l|
-      if (l.length < 2)
-        next
-      end
+      next if l.size < 2
       match = taskRecordPattern.match l
       task = {
-        :status=> match[:status],
-        :title=> match[:title]
+        status: match[:status],
+        title: match[:title]
       }
-      @tasks.push task
+      @tasks << task
     end
   end
 end
